@@ -40,6 +40,10 @@ module.exports = {
             ]
           },
           {
+            text: '前端',
+            link: '/web/',
+          },
+          {
             text: '配置参考',
             link: '/config/'
           },
