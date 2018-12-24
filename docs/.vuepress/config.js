@@ -32,13 +32,13 @@ module.exports = {
             text: '指南',
             link: '/guide/',
           },
-          {
-            text: '个人笔记',
-            items: [
-              { text: 'c++', link: '/cpp/' },
+          // {
+          //   text: '个人笔记',
+          //   items: [
+          //     { text: 'c++', link: '/cpp/' },
               
-            ]
-          },
+          //   ]
+          // },
           {
             text: '前端',
             link: '/web/',
@@ -47,19 +47,33 @@ module.exports = {
             text: '配置参考',
             link: '/config/'
           },
+          
           {
             text: '默认主题配置',
             link: '/default-theme-config/'
           }
         ],
         sidebar: {
-          '/guide/': genSidebarConfig('指南')
+          '/guide/': genSidebarConfig('指南'),
+          "/web/": webSidebarConfig('前端'),
         }
       }
     }
   }
 }
-
+function webSidebarConfig(title) {
+  return [
+    {
+      title,
+      collapsable: false,
+      children: [
+        '',
+        'mobile',
+        'mode'
+      ]
+    }
+  ]
+}
 function genSidebarConfig (title) {
   return [
     {

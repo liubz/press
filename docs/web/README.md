@@ -1,7 +1,5 @@
----
-sidebar: auto
----
 
+# 前端安全
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [XSS](#xss)
