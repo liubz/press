@@ -69,7 +69,8 @@ function webSidebarConfig(title) {
       children: [
         '',
         'mobile',
-        'mode'
+        'mode',
+        'console'
       ]
     }
   ]
