@@ -1,4 +1,4 @@
-# 你可能不值得console
+# 你可能不知道console
  *原文链接 [被忽略的console.log](https://segmentfault.com/a/1190000017333162?utm_source=tag-newest)*
   *原文链接 [你可能不知道console强大](https://www.cnblogs.com/liyunhua/p/4529079.html)*
 ### console.log()
