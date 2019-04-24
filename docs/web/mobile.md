@@ -116,6 +116,40 @@ www;
 
 ## vue 相关
 
+Object.freeze()是 ES5 新增的特性，可以冻结一个对象，防止对象被修改。
+vue 1.0.18+对其提供了支持，对于 data 或 vuex 里使用 freeze 冻结了的对象，vue 不会做 getter 和 setter 的转换。
+如果你有一个巨大的数组或 Object，并且确信数据不会修改，使用 Object.freeze()可以让性能大幅提升。
+并且，Object.freeze()冻结的是值，你仍然可以将变量的引用替换掉
+
+```js
+<p v-for="item in list">{{ item.value }}</p>
+
+new Vue({
+    data: {
+        // vue不会对list里的object做getter、setter绑定
+        list: Object.freeze([
+            { value: 1 },
+            { value: 2 }
+        ])
+    },
+    mounted () {
+        // 界面不会有响应
+        this.list[0].value = 100;
+
+        // 下面两种做法，界面都会响应
+        this.list = [
+            { value: 100 },
+            { value: 200 }
+        ];
+        this.list = Object.freeze([
+            { value: 100 },
+            { value: 200 }
+        ]);
+    }
+})
+
+```
+
 ### keep-alive 缓存组件
 
 ```text
