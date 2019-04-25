@@ -31,3 +31,62 @@ Angular 和 Vue 都提供了列表重绘的优化机制，也就是 “提示”
 链接：https://www.zhihu.com/question/31809713/answer/53544875
 来源：知乎
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+## 堆（heap）与栈（stack）
+
+### heap
+
+heap 是没有结构的，数据可以任意存放。heap 用于复杂数据类型（引用类型）分配空间，例如数组对象、object 对象。
+
+### stack
+
+stack 是有结构的，每个区块按照一定次序存放（后进先出），stack 中主要存放一些基本类型的变量和对象的引用，存在栈中的数据大小与生存期必须是确定的。可以明确知道每个区块的大小，因此，stack 的寻址速度要快于 heap。
+
+## EventLoop
+
+### 1. 基础知识
+
+- js 作为浏览器脚本语言，它的主要用途是与用户互动，以及操作 DOM，因此 js 是单线程，也避免了同时操作同一个 DOM 的矛盾问题；
+- 为了利用多核 CPU 的计算能力，H5 的 Web Worker 实现的“多线程”实际上指的是“多子线程”，完全受控于主线程，且不允许操作 DOM；
+- js 引擎存在 monitoring process 进程，会持续不断的检查主线程执行栈是否为空，一旦为空，就会去 Event Queue 那里检查是否有等待被调用的函数。这个过程是循环不断的，所以整个的这种运行机制又称为 Event Loop（事件循环）
+- 所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）；
+- 如果在微任务执行期间微任务队列加入了新的微任务，会将新的微任务加入队列尾部，之后也会被执行；
+
+### 2.js 中的异步操作
+
+- setTimeOut
+- setInterval
+- ajax
+- promise
+- I/O
+
+### 3.同步任务 or 异步任务
+
+- 同步任务(synchronous)：在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；
+- 异步任务(asynchronous)：不进入主线程、而进入"任务队列"（task queue）的任务，只有"任务队列"通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行
+
+### 4.宏任务 or 微任务
+
+这里需要注意的是 new Promise 是会进入到主线程中立刻执行，而 promise.then 则属于微任务
+
+- 宏任务(macro-task)：整体代码 script、setTimeOut、setInterval
+- 微任务(mincro-task)：promise.then、promise.nextTick(node)
+
+### 5. Event Loop 事件循环
+
+![avatar](/img/4820992-82913323252fde95.png)
+
+- 作者：StarryLake
+- 链接：[js 运行机制详解（Event Loop）](https://www.jianshu.com/p/e06e86ef2595)
+- 来源：简书
+
+### 相关文章
+
+- ssssyoki《这一次，彻底弄懂 JavaScript 执行机制》
+  https://juejin.im/post/59e85eebf265da430d571f89#heading-9
+
+- js 运行机制详解（Event Loop）
+  https://www.jianshu.com/p/e06e86ef2595
+
+- 阮一峰《JavaScript 运行机制详解：再谈 Event Loop》
+  http://www.ruanyifeng.com/blog/2014/10/event-loop.html

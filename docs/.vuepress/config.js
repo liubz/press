@@ -84,7 +84,7 @@ function webSidebarConfig(title) {
     {
       title,
       collapsable: false,
-      children: ["", "mobile", "mode", "console", "css"]
+      children: ["", "mobile", "mode", "console", "css", "JavaScript"]
     }
   ];
 }
