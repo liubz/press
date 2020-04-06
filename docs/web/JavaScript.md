@@ -91,4 +91,109 @@ stack 是有结构的，每个区块按照一定次序存放（后进先出）�
 - 阮一峰《JavaScript 运行机制详解：再谈 Event Loop》
   http://www.ruanyifeng.com/blog/2014/10/event-loop.html
 
-## class 和继承
+## 预编译
+
+1. 创建AO(Activation Object || 执行期上下文)对象
+2. 找形参和变量声明，将变量声明和形参名作为AO的属性名，值为undefined
+3. 将实参值和形参统一
+4. 在函数体里面找函数声明，赋值予函数体
+
+```js
+function fn(a) {
+  console.log(a)
+  var a = 123
+  console.log(a)
+  function a () {}
+  var b = function() {}
+  console.log(b)
+  function d () {}
+}
+fn(1)
+/*
+预编过程
+1.创建AO对象
+AO{
+
+}
+2.找形参和变量声明，将变量声明和形参名作为AO的属性名，值为undefined
+AO{
+  a: undefined,
+  b: undefined
+}
+3.将实参值和形参统一
+AO{
+  a: 1,
+  b:function b() {}
+}
+4. 在函数体里面找函数声明，赋值予函数体
+AO{
+  a: function a {},
+  b:function b() {},
+  d: function d {}
+}
+5. 代码执行
+*/
+```
+
+## 作用域链
+
+1. [[scope]]: 每个JavaScript函数都是一个对象，对象中有些属性我们是可以访问的，但有些不可以，这些属性仅供JavaScript引擎存取，[[scope]]就是其中一个。[[scope]]指的就是我们所说的作用域，其中储存了运行期上下文的集合。
+2. 作用域链： [[scope]]中所存储的执行期上下文的集合，这个集合呈链式链接，我们把这种链式链接叫做作用域链。
+3. 变量查找：从作用域链的顶端依次往下查找。
+
+示例
+
+```js
+function a () {
+  function b() {
+    var b = 234
+  }
+  b();
+}
+var glob = 100;
+a();
+/*
+a函数 定义 a.[[scope]] --> 0: GO {}
+a函数 运行 a.[[scope]] --> 0: AO {} (a的A0)
+                          1: GO {}
+b函数 定义 b.[[scope]] --> 0: AO {} (a的A0)
+                          1: GO {}
+b函数 运行 b.[[scope]] --> 0: AO {} (b的A0)
+                          1: AO {} (a的A0)
+                          2: GO {}
+*/
+```
+
+图解
+a 函数被定义时的作用域链
+![avatar](/img/scope-a-defined.png)
+
+a 函数执行时的作用域链
+![avatar](/img/scope-a-doing.png)
+
+b 函数被定义时的作用域链
+![avatar](/img/scope-b-defined.png)
+
+b 函数执行时的作用域链
+![avatar](/img/scope-b-doing.png)
+
+## 闭包
+
+1. 当内部函数被保存到外部时，将会产生闭包。
+2. 缺点：闭包会导致原有作用域链不释放，造成内存泄漏。
+3. 优点： 实现私有变量，可以做缓存，可以模块化开发，避免全局变量的污染
+
+```js
+function a () {
+ var temp = 100;
+ function b () {
+   console.log(temp)
+ }
+ return b;
+}
+var dome = a();
+dome();
+/*
+由于a函数执行把b函数保存到了函数的外部，b函数的作用域链中还保存这a函数的执行时生成的作用域链，导致a函数执行完内存没有得到释放。
+*/
+```
