@@ -166,15 +166,19 @@ b函数 运行 b.[[scope]] --> 0: AO {} (b的A0)
 
 图解
 a 函数被定义时的作用域链
+
 ![avatar](/img/scope-a-defined.png)
 
 a 函数执行时的作用域链
+
 ![avatar](/img/scope-a-doing.png)
 
 b 函数被定义时的作用域链
+
 ![avatar](/img/scope-b-defined.png)
 
 b 函数执行时的作用域链
+
 ![avatar](/img/scope-b-doing.png)
 
 ## 闭包
