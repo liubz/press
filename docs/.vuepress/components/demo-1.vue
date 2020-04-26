@@ -10,6 +10,8 @@ export default {
     return {
       msg: 'Hello this is <demo-1>'
     }
+  },
+  created() {
   }
 }
 </script>
