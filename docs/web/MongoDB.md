@@ -36,3 +36,11 @@ for(var i=0; i<100; i++){
 ... db.user.insert({"name": "zhangsan" + i, "age": i})
 ... }
 ```
+
+### 索引
+
+- 创建索引 db.user.ensureIndex({"username": 1}) 
+- 复合索引 db.user.ensureIndex({"username": 1, "age": -1}) 
+- 获取当前集合的索引 db.user.getIndexes()
+- 删除索引 db.user.dropIndex({"username": 1})
+- 回去查询的执行时间 db.tablename.find().explain("executionStats")
